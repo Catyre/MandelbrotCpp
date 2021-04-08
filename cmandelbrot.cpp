@@ -2,6 +2,7 @@
 #include <array>
 #include <vector>
 #include <thread>
+#include <iostream>
 
 static constexpr int IMAGE_WIDTH = 1000;
 static constexpr int IMAGE_HEIGHT = 600;
@@ -69,6 +70,24 @@ sf::Color Mandelbrot::getColor(int iterations) const {
 
 void Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, sf::Image& image, int minY, int maxY) const
 {
+    std::vector<std::vector<float>> pixelValues;
+
+    double real = 0 * zoom - IMAGE_WIDTH / 2.0 * zoom + offsetX;
+    double imagstart = minY * zoom - IMAGE_HEIGHT / 2.0 * zoom + offsetY;
+    for (int x = 0; x < IMAGE_WIDTH; x++, real += zoom) {
+        double imag = imagstart;
+        for (int y = minY; y < maxY; y++, imag += zoom) {
+            int value = mandelbrot(real, imag);
+            pixelValues.push_back(value);
+            std::cout << pixelValues[x][y];
+            image.setPixel(x, y, colors[value]);
+        }
+    }
+}
+
+/*
+void Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, sf::Image& image, int minY, int maxY) const
+{
     double real = 0 * zoom - IMAGE_WIDTH / 2.0 * zoom + offsetX;
     double imagstart = minY * zoom - IMAGE_HEIGHT / 2.0 * zoom + offsetY;
     for (int x = 0; x < IMAGE_WIDTH; x++, real += zoom) {
@@ -79,6 +98,7 @@ void Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, s
         }
     }
 }
+*/
 
 void Mandelbrot::updateImage(double zoom, double offsetX, double offsetY, sf::Image& image) const
 {
