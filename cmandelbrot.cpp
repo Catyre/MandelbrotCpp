@@ -2,7 +2,6 @@
 #include <array>
 #include <vector>
 #include <thread>
-#include <iostream>
 
 static constexpr int IMAGE_WIDTH = 1000;
 static constexpr int IMAGE_HEIGHT = 600;
@@ -68,31 +67,6 @@ sf::Color Mandelbrot::getColor(int iterations) const {
     return sf::Color(r, g, b);
 }
 
-/*
-This function is a prototype to allow the graphing and coloring to happen dynamically.  It is not yet complete
-
-void Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, sf::Image& image, int minY, int maxY) const
-{
-    std::vector<std::vector<int>> pixelValues;
-
-    double real = 0 * zoom - IMAGE_WIDTH / 2.0 * zoom + offsetX;
-    double imagstart = minY * zoom - IMAGE_HEIGHT / 2.0 * zoom + offsetY;
-
-    for (int x = 0; x < IMAGE_WIDTH; x++, real += zoom) {
-        double imag = imagstart;
-        for (int y = minY; y < maxY; y++, imag += zoom) {
-            int value = mandelbrot(real, imag);
-            std::vector<int> pixelValue{x, y, colors[value]};
-
-            pixelValues.push_back(pixelValue);
-            std::cout << pixelValues[x][y];
-            image.setPixel(x, y, colors[value]);
-        }
-    }
-}
-*/
-
-
 void Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, sf::Image& image, int minY, int maxY) const
 {
     double real = 0 * zoom - IMAGE_WIDTH / 2.0 * zoom + offsetX;
@@ -105,7 +79,6 @@ void Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, s
         }
     }
 }
-
 
 void Mandelbrot::updateImage(double zoom, double offsetX, double offsetY, sf::Image& image) const
 {
@@ -151,7 +124,7 @@ int main() {
                         case sf::Keyboard::Equal:
                             zoom *= 0.9;
                             break;
-                        case sf::Keyboard::Dash:
+                        case sf::Keyboard::Z:
                             zoom /= 0.9;
                             break;
                         case sf::Keyboard::W:
@@ -185,3 +158,4 @@ int main() {
         window.display();
     }
 }
+
